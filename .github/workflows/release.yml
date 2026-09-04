@@ -19,29 +19,19 @@ jobs:
           java-version: "17"
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      - name: Compute next version number
-        id: version
-        run: |
-          LAST_TAG=$(git tag --list 'v*' | sed 's/^v//' | sort -n | tail -n1)
-          if [ -z "$LAST_TAG" ]; then
-            NEXT=1
-          else
-            NEXT=$((LAST_TAG + 1))
-          fi
-          echo "version=$NEXT" >> "$GITHUB_OUTPUT"
       - name: Build debug APK
         run: |
           ./gradlew assembleDebug \
-            -PVERSION_CODE=${{ steps.version.outputs.version }} \
-            -PVERSION_NAME=${{ steps.version.outputs.version }}
+            -PVERSION_CODE=${{ github.run_number }} \
+            -PVERSION_NAME=1.0.${{ github.run_number }}
       - name: Rename APK
         run: |
           mkdir -p out
           cp app/build/outputs/apk/debug/app-debug.apk \
-             out/ks03old-v${{ steps.version.outputs.version }}.apk
+             out/ks03old-v${{ github.run_number }}.apk
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ steps.version.outputs.version }}
-          name: v${{ steps.version.outputs.version }}
-          files: out/ks03old-v${{ steps.version.outputs.version }}.apk
+          tag_name: v${{ github.run_number }}
+          name: v${{ github.run_number }}
+          files: out/ks03old-v${{ github.run_number }}.apk
