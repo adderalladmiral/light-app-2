@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/txtConnState"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="Not connected — go back and connect first" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="This sends alternating rgb() color-change frames as fast as possible, ramping the target rate up over time, and counts how many the OS actually accepts vs rejects. It also flags if the connection drops. This is send-side only — a write being 'accepted' by Android does not guarantee the light received or applied it (WRITE_TYPE_NO_RESPONSE has no ACK)."
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/lblStartRate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Start rate: 5 writes/sec" />
+        <SeekBar
+            android:id="@+id/seekStartRate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="95"
+            android:progress="0" />
+
+        <TextView
+            android:id="@+id/lblRampStep"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ramp step: +5 writes/sec every 2s" />
+        <SeekBar
+            android:id="@+id/seekRampStep"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="45"
+            android:progress="0" />
+
+        <Button
+            android:id="@+id/btnStartStop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Start Stress Test" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="#888888" />
+
+        <TextView
+            android:id="@+id/txtCurrentRate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="Current target rate: —" />
+
+        <TextView
+            android:id="@+id/txtStats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="13sp"
+            android:text="Sent: 0   Accepted: 0   Rejected: 0" />
+
+        <TextView
+            android:id="@+id/txtResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#CC4400"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/txtLog2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textSize="11sp"
+            android:text="" />
+
+    </LinearLayout>
+</ScrollView>

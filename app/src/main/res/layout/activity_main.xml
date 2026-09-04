@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <Button
+            android:id="@+id/btnScan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Scan for KS03- devices" />
+
+        <TextView
+            android:id="@+id/txtStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Not connected"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnStressTest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Speed Stress Test" />
+
+        <ListView
+            android:id="@+id/listDevices"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="8dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="#888888" />
+
+        <!-- Power -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnOn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="ON" />
+
+            <Button
+                android:id="@+id/btnOff"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="OFF" />
+        </LinearLayout>
+
+        <!-- RGB -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Color (0-100 each)" />
+
+        <TextView
+            android:id="@+id/lblRed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Red: 100" />
+        <SeekBar
+            android:id="@+id/seekRed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:progress="100" />
+
+        <TextView
+            android:id="@+id/lblGreen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Green: 100" />
+        <SeekBar
+            android:id="@+id/seekGreen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:progress="100" />
+
+        <TextView
+            android:id="@+id/lblBlue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Blue: 100" />
+        <SeekBar
+            android:id="@+id/seekBlue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:progress="100" />
+
+        <Button
+            android:id="@+id/btnApplyColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Apply Color" />
+
+        <!-- Brightness -->
+        <TextView
+            android:id="@+id/lblBrightness"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Brightness: 100" />
+        <SeekBar
+            android:id="@+id/seekBrightness"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:progress="100" />
+
+        <!-- Speed -->
+        <TextView
+            android:id="@+id/lblSpeed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Speed: 0" />
+        <SeekBar
+            android:id="@+id/seekSpeed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="8"
+            android:progress="0" />
+
+        <!-- Scenes -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Scenes" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button android:id="@+id/btnJump7" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Jump7" android:textSize="11sp"/>
+            <Button android:id="@+id/btnJump3" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Jump3" android:textSize="11sp"/>
+            <Button android:id="@+id/btnFade7" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Fade7" android:textSize="11sp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button android:id="@+id/btnFade3" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Fade3" android:textSize="11sp"/>
+            <Button android:id="@+id/btnFlash" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Flash" android:textSize="11sp"/>
+            <Button android:id="@+id/btnAuto" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Auto" android:textSize="11sp"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="#888888" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="EXPERIMENTAL — Music Modes (untested, source-flagged)"
+            android:textColor="#CC4400"
+            android:textStyle="bold"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="These use a firmware command the Python source never confirmed against real hardware (wrong trailer byte vs. every other frame). May do nothing, may misbehave. Test at your own pace."
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/lblMusicSpeed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Music Speed: 0" />
+        <SeekBar
+            android:id="@+id/seekMusicSpeed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="8"
+            android:progress="0" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button android:id="@+id/btnMusicFade7" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Fade7\n+Noise" android:textSize="10sp"/>
+            <Button android:id="@+id/btnMusicTwoFade" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="TwoFade\n+Noise" android:textSize="10sp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button android:id="@+id/btnMusicJumpPause" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Jump/Pause\nOnNoise" android:textSize="10sp"/>
+            <Button android:id="@+id/btnMusicJumpOff" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Jump/Off\nOnNoise" android:textSize="10sp"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txtLog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textSize="11sp"
+            android:text="" />
+
+    </LinearLayout>
+</ScrollView>
