@@ -60,17 +60,34 @@ class BleController(private val context: Context) {
         scanning = true
         listener?.onLog("Scanning for $NAME_PREFIX* devices…")
 
-        // Filtering by name prefix at the OS level isn't universally supported
-        // pre-name-matching across all chipsets for BLE adv name, so filter both
-        // via ScanFilter (fast path) and manually in the callback (fallback).
-        val filters = listOf(
-            ScanFilter.Builder().build()
-        )
         val settings = ScanSettings.Builder()
             .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
             .build()
 
-        scanner.startScan(filters, settings, scanCallback)
+        // An empty ScanFilter.Builder().build() is NOT the same as "no filter" —
+        // it's a filter object with every match field null, and several OEM
+        // Bluetooth stacks (notably Samsung/MediaTek) silently match nothing
+        // against it instead of matching everything. Filter on the real
+        // service UUID instead, and fall back to a genuinely unfiltered scan
+        // (filters = null) if nothing turns up in the first few seconds, in
+        // case a given unit doesn't advertise its service UUID up front.
+        val serviceFilters = listOf(
+            ScanFilter.Builder().setServiceUuid(android.os.ParcelUuid(SERVICE_UUID)).build()
+        )
+
+        scanner.startScan(serviceFilters, settings, scanCallback)
+
+        handler.postDelayed({
+            if (!scanning) return@postDelayed
+            if (seenAddresses.isEmpty()) {
+                try {
+                    scanner.stopScan(scanCallback)
+                } catch (_: Exception) {
+                }
+                listener?.onLog("No results from filtered scan, retrying unfiltered…")
+                scanner.startScan(null, settings, scanCallback)
+            }
+        }, 4000L)
 
         // Auto-stop after 15s so we don't drain the battery if the user walks away.
         handler.postDelayed({ stopScan() }, 15000)
