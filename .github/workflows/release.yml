@@ -1,12 +1,9 @@
 name: Build and Release
-
 on:
   push:
     branches: [master]
-
 permissions:
   contents: write
-
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
@@ -15,16 +12,13 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: "17"
-
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-
       - name: Compute next version number
         id: version
         run: |
@@ -35,19 +29,16 @@ jobs:
             NEXT=$((LAST_TAG + 1))
           fi
           echo "version=$NEXT" >> "$GITHUB_OUTPUT"
-
-      - name: Build release APK
+      - name: Build debug APK
         run: |
-          ./gradlew assembleRelease \
+          ./gradlew assembleDebug \
             -PVERSION_CODE=${{ steps.version.outputs.version }} \
             -PVERSION_NAME=${{ steps.version.outputs.version }}
-
       - name: Rename APK
         run: |
           mkdir -p out
-          cp app/build/outputs/apk/release/app-release-unsigned.apk \
+          cp app/build/outputs/apk/debug/app-debug.apk \
              out/ks03old-v${{ steps.version.outputs.version }}.apk
-
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
