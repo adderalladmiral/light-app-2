@@ -60,17 +60,26 @@ class BleController(private val context: Context) {
         scanning = true
         listener?.onLog("Scanning for $NAME_PREFIX* devices…")
 
+        // Bonded-device fast path: if the phone already paired with a KS03-
+        // device, hand it back immediately instead of waiting on a fresh scan.
+        adapter.bondedDevices?.firstOrNull { d ->
+            d.name?.startsWith(NAME_PREFIX, ignoreCase = true) == true
+        }?.let { bonded ->
+            seenAddresses.add(bonded.address)
+            listener?.onDeviceFound(bonded, 0)
+        }
+
         val settings = ScanSettings.Builder()
             .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
             .build()
 
-        // An empty ScanFilter.Builder().build() is NOT the same as "no filter" —
-        // it's a filter object with every match field null, and several OEM
-        // Bluetooth stacks (notably Samsung/MediaTek) silently match nothing
-        // against it instead of matching everything. Filter on the real
-        // service UUID instead, and fall back to a genuinely unfiltered scan
-        // (filters = null) if nothing turns up in the first few seconds, in
-        // case a given unit doesn't advertise its service UUID up front.
+        // An empty ScanFilter.Builder().build() is NOT "no filter" — it's a
+        // filter with every match field null, and several OEM Bluetooth
+        // stacks (Samsung/MediaTek) silently match nothing against it.
+        // Filter on the real service UUID instead, and fall back to a
+        // genuinely unfiltered scan (filters = null) if nothing turns up in
+        // the first few seconds, in case a unit doesn't advertise the
+        // service UUID in its primary advertisement packet.
         val serviceFilters = listOf(
             ScanFilter.Builder().setServiceUuid(android.os.ParcelUuid(SERVICE_UUID)).build()
         )
@@ -105,8 +114,11 @@ class BleController(private val context: Context) {
         @SuppressWarnings("MissingPermission")
         override fun onScanResult(callbackType: Int, result: ScanResult) {
             val device = result.device
-            val name = device.name ?: result.scanRecord?.deviceName ?: return
-            if (!name.startsWith(NAME_PREFIX)) return
+            // scanRecord.deviceName reflects what's actually being broadcast right
+            // now; device.name relies on the OS's cached GATT record, which can be
+            // null/stale until the phone has connected to the device before.
+            val name = (result.scanRecord?.deviceName ?: device.name)?.trim() ?: return
+            if (!name.startsWith(NAME_PREFIX, ignoreCase = true)) return
             if (!seenAddresses.add(device.address)) return
             listener?.onDeviceFound(device, result.rssi)
         }
