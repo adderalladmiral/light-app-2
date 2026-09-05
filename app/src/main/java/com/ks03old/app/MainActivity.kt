@@ -181,7 +181,7 @@ class MainActivity : AppCompatActivity(), BleController.Listener {
 
     private fun log(message: String) {
         runOnUiThread {
-            txtLog.text = message
+            txtLog.append("\n$message")
         }
     }
 

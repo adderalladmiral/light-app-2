@@ -117,7 +117,14 @@ class BleController(private val context: Context) {
             // scanRecord.deviceName reflects what's actually being broadcast right
             // now; device.name relies on the OS's cached GATT record, which can be
             // null/stale until the phone has connected to the device before.
-            val name = (result.scanRecord?.deviceName ?: device.name)?.trim() ?: return
+            val name = (result.scanRecord?.deviceName ?: device.name)?.trim()
+
+            // DIAGNOSTIC: log every raw advertisement we see, matched or not, so
+            // we can find out what this device actually broadcasts. Remove once
+            // the real prefix/casing is confirmed.
+            listener?.onLog("Adv: name=${name ?: "null"} addr=${device.address} rssi=${result.rssi} services=${result.scanRecord?.serviceUuids}")
+
+            if (name == null) return
             if (!name.startsWith(NAME_PREFIX, ignoreCase = true)) return
             if (!seenAddresses.add(device.address)) return
             listener?.onDeviceFound(device, result.rssi)
